@@ -67,17 +67,20 @@ int _tmain(int argc, _TCHAR* argv[])
 	int nextCounter = 0;
 	while(!nodesToVisit.empty()){
 		treeNode *currentNode = nodesToVisit.front(); //pointer to current node
-		if(counter == 0){
-			cout << endl;
-			counter = nextCounter;
-			nextCounter = 0;
-		}
 		nodesToVisit.pop(); //pop off front of queue
 		for(unsigned int i = 0; i<currentNode->getChildren().size(); i++){
 			nodesToVisit.push(currentNode->getChildren()[i]);
-			cout << currentNode->getChildren()[i]->getValue();	
-			nextCounter = nextCounter + currentNode->getChildren()[i]->getChildren().size();
-			counter--;
+				cout << currentNode->getChildren()[i]->getValue();	
+				nextCounter = nextCounter + currentNode->getChildren()[i]->getChildren().size();
+				counter--;
+				if(counter == 0 && nextCounter != 0){
+					cout << endl;
+					counter = nextCounter;
+					nextCounter = 0;
+				}
+		}
+		if(nodesToVisit.empty()){ //cout one last time
+			cout << endl;
 		}
 	}
 	return 0;
