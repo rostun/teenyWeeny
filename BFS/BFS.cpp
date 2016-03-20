@@ -64,20 +64,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	nodesToVisit.push(&root); //put root into queue
 	cout << root.getValue() << endl; //output that root
 	int counter = root.getChildren().size(); //set counter to roots children size
-
+	int nextCounter = 0;
 	while(!nodesToVisit.empty()){
 		treeNode *currentNode = nodesToVisit.front(); //pointer to current node
-		nodesToVisit.pop(); //pop off front of queue
-
 		if(counter == 0){
 			cout << endl;
-			counter = currentNode->getChildren().size(); //size
+			counter = nextCounter;
+			nextCounter = 0;
 		}
+		nodesToVisit.pop(); //pop off front of queue
 		for(unsigned int i = 0; i<currentNode->getChildren().size(); i++){
 			nodesToVisit.push(currentNode->getChildren()[i]);
 			cout << currentNode->getChildren()[i]->getValue();	
+			nextCounter = nextCounter + currentNode->getChildren()[i]->getChildren().size();
+			counter--;
 		}
-		counter--;
 	}
 	return 0;
 }
