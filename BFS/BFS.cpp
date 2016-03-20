@@ -38,10 +38,10 @@ class treeNode{
 		string getValue(){ 
 			return parent;
 		}
-		vector <treeNode*> getChildren() { 
+		vector <treeNode*> getChildren(){ 
 			return children;
 		}
-		void addChild(treeNode &inChild){ 
+		void addChild(treeNode &inChild){ //take in address
 			children.push_back(&inChild);
 		}
 };
@@ -59,15 +59,25 @@ int _tmain(int argc, _TCHAR* argv[])
 	treeNode nodeI("I"); nodeG.addChild(nodeI);
 
 	//BFS: print out level by level
-	queue <treeNode> nodesToVisit; //queues for nodes
-	nodesToVisit.push(root); 
-	treeNode currentNode = nodesToVisit.front(); //save front of queue
-	root.getChildren()[0];
-	nodesToVisit.pop(); //pop off front of queue
+	queue <treeNode*> nodesToVisit; //queues for nodes
+	
+	nodesToVisit.push(&root); //put root into queue
+	cout << root.getValue() << endl; //output that root
+	int counter = root.getChildren().size(); //set counter to roots children size
 
-	for(int i = 0; i<currentNode.getChildren().size(); i++){
-		nodesToVisit.push(currentNode.getChildren());
+	while(!nodesToVisit.empty()){
+		treeNode *currentNode = nodesToVisit.front(); //pointer to current node
+		nodesToVisit.pop(); //pop off front of queue
+
+		if(counter == 0){
+			cout << endl;
+			counter = currentNode->getChildren().size(); //size
+		}
+		for(unsigned int i = 0; i<currentNode->getChildren().size(); i++){
+			nodesToVisit.push(currentNode->getChildren()[i]);
+			cout << currentNode->getChildren()[i]->getValue();	
+		}
+		counter--;
 	}
-
 	return 0;
 }
