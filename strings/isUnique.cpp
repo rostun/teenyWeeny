@@ -2,16 +2,6 @@
 	Cracking the Coding Interview: 1.1 Is Unique
 		1. Implement an algorithm to determine if a string has all unique characters.
 		2. What if you can't use additional data structures?
-			to do it without data structure, i would need to instead copy over the word to another word
-*/
-
-/*
-	//1.1 solution: make a boolean table to represent the charset
-	//if it's been visited before, mark as visited
-	//cout << typeid(word[0]).name() << endl; (include typeinfo)
-	for(int i = 97; i<123; i++){
-		cout << i << " " << (char)i << endl;
-	}
 */
 
 /*
@@ -29,6 +19,63 @@
 	}
 */
 
+//1. Implement an algorithm to determine if a string has all unique characters.
+#include "stdafx.h"
+#include <string>
+#include <vector>
+#include <map> //O(logn) for inserts and finds
+#include <iostream> 
+#include <unordered_map>
+using namespace std;
+
+void getHashValue(char key, int & value); //will just be the number of the character
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	string word;
+	int value;
+
+	cout << "enter string" << endl;
+	cin >> word;
+
+	map<int, int> characterChart; //ascii value, boolean
+
+	for(int i = 0; i<26; i++){
+		characterChart[i] = 1; //initialize all to unvisited
+	}
+
+	//can't have duplicate keys
+	for(int i = 0; i<word.length(); i++){
+		getHashValue(word[i], value);
+		if(characterChart[value] == 0){
+			cout << "repeating value" << endl;
+			i = word.length()-1;
+		}
+		else{
+			characterChart[value] = 0; //visited
+		}
+	}
+	
+	cout << "map size: " << characterChart.size() << endl;
+
+	for(std::map<int, int>::const_iterator it = characterChart.begin(); it != characterChart.end(); ++it){
+		cout << it->first << " " << it->second << endl;
+	}
+	
+	return 0;
+}
+
+void getHashValue(char key, int & value){
+	int asciiCode = (int)key; 
+	if(asciiCode < 91 && asciiCode > 64){
+		value = asciiCode-65; //65-65 = 0, 1, 2, 3, etc
+	}
+	if(asciiCode < 123 && asciiCode > 96){
+		value = asciiCode-97; //97-97 = 0, 1, 2, 3, etc
+	}
+}
+
+//2. What if you can't use additional data structures?
 #include "stdafx.h"
 #include <string>
 #include <vector>
