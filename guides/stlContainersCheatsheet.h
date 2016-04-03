@@ -25,16 +25,15 @@ set<type> //binary search trees
 //week 11+: repeat until we got opportunities
 
 //concepts
+Big O Running times 
+Trees/Graphs
 Breadth First Search
 Depth First Search
-Merge Sort
-Quick Sort
 Hash tables 
 Linked Lists
-Trees/Graphs
 stacks/queues 
 heaps
 vectors
 arrayLists
-Big O Running times 
-object oriented stuff
+sorts less important 
+object oriented least important (inheritance important)
