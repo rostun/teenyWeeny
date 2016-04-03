@@ -1,4 +1,4 @@
-// BFS.cpp : Defines the entry point for the console application.
+// DFS.cpp : Defines the entry point for the console application.
 /*
 	Given a tree (generic, not binary, no cycles):
 		A
