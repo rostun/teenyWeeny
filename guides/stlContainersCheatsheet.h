@@ -7,8 +7,8 @@
 unordered_map<type1, type2>
 vector <type> 
 map<type1, type2>
-queue<type> //filo
-stack<type> //fifo
+queue<type> //fifo
+stack<type> //filo
 list<type> 
 unordered_set<type> //constant insert/lookup  
 priority_queue<type> //logn insert
