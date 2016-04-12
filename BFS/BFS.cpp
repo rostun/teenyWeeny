@@ -14,6 +14,8 @@
 	BC
 	DEFGH
 	I
+	
+	http://www.tutorialspoint.com/cplusplus/cpp_inheritance.htm
 */
 
 #include "stdafx.h"
@@ -60,6 +62,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//BFS: print out level by level
 	queue <treeNode*> nodesToVisit; //queues for nodes
+	//line first in first out
 	
 	nodesToVisit.push(&root); //put root into queue
 	cout << root.getValue() << endl; //output that root
@@ -71,7 +74,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		for(unsigned int i = 0; i<currentNode->getChildren().size(); i++){
 			nodesToVisit.push(currentNode->getChildren()[i]);
 				cout << currentNode->getChildren()[i]->getValue();	
-				nextCounter = nextCounter + currentNode->getChildren()[i]->getChildren().size();
+				nextCounter = nextCounter + currentNode->getChildren()[i]->getChildren().size(); //B has 3 children and C has 2
 				counter--;
 				if(counter == 0 && nextCounter != 0){
 					cout << endl;
