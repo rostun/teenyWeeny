@@ -1,4 +1,4 @@
-// RoleRandomizer.cpp : main project file.
+//role randomizer for league of legends
 
 #include "stdafx.h"
 
@@ -8,10 +8,9 @@
 #include <stdio.h> //null
 #include <string>
 
-using namespace System;
 using namespace std;
 
-int main(array<System::String ^> ^args)
+int main()
 {
 	srand(time(NULL)); //seed
 	
@@ -31,8 +30,8 @@ int main(array<System::String ^> ^args)
 	{
 		// Randomize the array of roles.
 		for (int i = 0; i < 5; ++i) 
-		{
-			std::swap(roles[i], roles[(rand() % (5 - i)) + i]);
+		{	//swap i and random i
+			swap(roles[i], roles[(rand() % (5 - i)) + i]);
 		}
 		
 		for (int place = 0; place < 5; place++) /*output results*/
@@ -46,5 +45,4 @@ int main(array<System::String ^> ^args)
 
 	return 0;
 }
-
 

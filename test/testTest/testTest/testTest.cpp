@@ -1,77 +1,83 @@
-// testTest.cpp : Defines the entry point for the console application.
-//
+/*
+	Given an array of integers, write a funciton to find the maximum product of any three unique numbers
+	alternate solution **without sorting**
+		pick out the top three positive numbers and lowest two negative numbers
+*/
 
 #include "stdafx.h"
+
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <algorithm> //sort
+#include <functional> //greater
+
 using namespace std;
 
-#define SIZ 8
+void findProduct(vector <int> numbers);
 
-vector<int> findMode(int array[], int size)
+int main()
 {
-	vector<int> modeVector; //creating vector
+	//{8, -20, 4, 9, 10, 4, 4, 2};
+	//{-1, -1, -1};
+	//{0};
+	//{-1, 3, 3, 3};
+	int arrayIntegers[] = {8, -20, 4, 9, -10, 4, 4, 2};
+	int sizeArray = sizeof(arrayIntegers)/sizeof(arrayIntegers[0]);
+	vector <int> numbers;
 
-	sort(array, array + size);
-
-	int counter = 0;
-	int max = 0;
-	int number = array[0];
-	int mode = number;
-
-	for (int i = 0; i < size; i++)
-	{
-		if (array[i] == number)                     
-		{
-			cout << counter << endl;
-			counter++;
-		}
-		if (array[i] != number || i == size - 1) 
-		{
-			if (counter == max) 
-			{
-				mode = number;
-
-				modeVector.push_back(mode); 
-
-			}
-			else if (counter > max)
-			{
-				max = counter;
-				mode = number;
-
-				modeVector.clear();
-				modeVector.push_back(mode); 
-			}
-			if (array[i] != number && max == 1 && i == size - 1) //
-			{
-				modeVector.push_back(array[i]);
-			}
-			
-			counter = 1; 
-			number = array[i];
-		}
+	for(int i = 0; i<sizeArray; i++){
+		numbers.push_back(arrayIntegers[i]);
 	}
 
-
-	sort(modeVector.begin(), modeVector.end());
-
-	return modeVector;
-
-}
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-	int testArray[SIZ] = {1, 2, 3}; //array declared
-
-	vector<int> testVector; //vector creating
-	testVector = findMode(testArray, SIZ); //calling function
-
-	for (int i = 0; i < testVector.size(); i++){
-		cout << testVector[i];
-	}
-	cout << endl;
+	findProduct(numbers);
+	//cout << "maxProduct: " << maxProduct << endl;
 	return 0;
 }
 
+void findProduct(vector<int> numbers){
+
+	int maxProduct;
+	vector <int> negativeNums;
+
+	//3 or less numbers
+	if(numbers.size() < 3){
+		cout << "less than 3 numbers" << endl;
+		return;
+	}
+	if(numbers.size() == 3){
+		maxProduct = numbers[0]*numbers[1]*numbers[2];
+		cout << "maxProduct: " << maxProduct << endl;
+		return;
+	}
+
+	//sort numbers
+	sort(numbers.begin(), numbers.end(), greater<int>());
+
+	//get negative numbers if there are any
+	int i = numbers.size()-1;
+	while(numbers[i] < 0){
+		negativeNums.push_back(numbers[i]);
+		i--;
+	}
+
+	//testing both vectores
+	for(int i = 0; i < negativeNums.size(); i++){cout << negativeNums[i] << endl;}
+	for(int i = 0; i < numbers.size(); i++){cout << numbers[i] << endl;}
+
+	//if not enough negative numbers to matter
+	if(negativeNums.size() < 2){
+		maxProduct = numbers[0]*numbers[1]*numbers[2];
+	}
+	//if we have a decent amount of both, see which is better
+	else {
+		int negPair = negativeNums[0]*negativeNums[1]*numbers[0];
+		int posPair = numbers[0]*numbers[1]*numbers[2];
+		if(negPair > posPair){
+			maxProduct = negPair;
+		} else {
+			maxProduct = posPair;
+		}
+	}
+
+	cout << "maxProduct: " << maxProduct << endl;
+}
