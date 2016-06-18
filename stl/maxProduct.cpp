@@ -4,8 +4,6 @@
 		pick out the top three positive numbers and lowest two negative numbers
 */
 
-#include "stdafx.h"
-
 #include <iostream>
 #include <vector>
 #include <algorithm> //sort
@@ -31,6 +29,7 @@ int main()
 
 	findProduct(numbers);
 	//cout << "maxProduct: " << maxProduct << endl;
+	cin.get();
 	return 0;
 }
 
