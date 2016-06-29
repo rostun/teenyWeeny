@@ -8,54 +8,59 @@
 #include <vector>
 #include <algorithm> //sort
 #include <functional> //greater
+#include <string> 
 
 using namespace std;
 
-struct Node
-{
-    int data;
-    struct Node *next;
-};
+int main() {
+    int N, Q; 
+	vector <string> baseStrings;
+	vector <int> queryStrings;
 
-Node* Insert(Node *head,int data);
+	cin >> N;
+	int loops = 0;
+	int inBaseStrings = 1;
+	string input;
 
-int main()
-{
-	Node *head;
+	while(loops < N){
+		cin >> input;
+		for(int i = 0; i < baseStrings.size(); i++){
+			if(input == baseStrings[i]){
+				queryStrings[i]++;
+				inBaseStrings = 0; //set flag
+			}
+		}
+		if(inBaseStrings == 1){ //we need to add it into queryString
+			baseStrings.push_back(input);
+			queryStrings.push_back(1);
+		}
+		inBaseStrings = 1; //reset flag
+		loops++;
+	}//for(int i = 0; i < queryStrings.size(); i++){cout << queryStrings[i] << endl;}
 
-	head = Insert(NULL, 2);
-	cout << head->data << endl;
-	Insert(head, 3);
-	cout << head->next->data << endl;
-	Insert(head, 5);
-	cout << head->next->next->data << endl;
+	cin >> Q;
+	loops = 0;
+	inBaseStrings = 1;
+	vector <int> tally;
 
-	cin.get();
-	return 0;
-}
-
-Node* Insert(Node *head,int data)
-{
-	Node *current;
-    
-	//make a node
-	Node* tail = new Node;
-    tail->data = data; //have to add it no matter what
-    tail->next = NULL;
-
-    //if node is NULL
-    if(head == NULL){
-        return tail;
-    }
-
-	//we have at least one node
-	current = head;
-	while(current->next != NULL){
-		current = current->next;
+	while(loops < Q){
+		cin >> input;
+		for(int i = 0; i < baseStrings.size(); i++){
+			if(input == baseStrings[i]){
+				tally.push_back(queryStrings[i]);
+				inBaseStrings = 0; //set flag
+			}
+		}
+		if(inBaseStrings == 1){
+			tally.push_back(0);
+		}
+		inBaseStrings = 1;
+		loops++;
+	}
+	
+	for(int i = 0; i < tally.size(); i++){
+		cout << tally[i] << endl;
 	}
 
-	//current should be null
-	current->next = tail;
-
-    return head;
+    return 0;
 }
