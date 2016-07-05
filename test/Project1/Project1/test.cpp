@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <algorithm> //sort
 #include <functional> //greater
 #include <string> 
@@ -13,54 +14,49 @@
 using namespace std;
 
 int main() {
-    int N, Q; 
-	vector <string> baseStrings;
-	vector <int> queryStrings;
+    string firstString;
+	string secondString;
 
-	cin >> N;
-	int loops = 0;
-	int inBaseStrings = 1;
-	string input;
+	cin >> firstString >> secondString;
 
-	while(loops < N){
-		cin >> input;
-		for(int i = 0; i < baseStrings.size(); i++){
-			if(input == baseStrings[i]){
-				queryStrings[i]++;
-				inBaseStrings = 0; //set flag
-			}
+	//check size first
+	if(firstString.size() != secondString.size()){
+		cout << "NO" << endl;
+	} else {
+		//map <string, char> grade_list;
+		//grade_list["John"] = 'B';
+		map <int, int> firstChart; //character, tally
+		map <int, int> secondChart;
+		//set all tallies to 0
+		for(int i = 0; i < 128; i++){
+			firstChart[i] = 0;
+			secondChart[i] = 0;
 		}
-		if(inBaseStrings == 1){ //we need to add it into queryString
-			baseStrings.push_back(input);
-			queryStrings.push_back(1);
-		}
-		inBaseStrings = 1; //reset flag
-		loops++;
-	}//for(int i = 0; i < queryStrings.size(); i++){cout << queryStrings[i] << endl;}
 
-	cin >> Q;
-	loops = 0;
-	inBaseStrings = 1;
-	vector <int> tally;
-
-	while(loops < Q){
-		cin >> input;
-		for(int i = 0; i < baseStrings.size(); i++){
-			if(input == baseStrings[i]){
-				tally.push_back(queryStrings[i]);
-				inBaseStrings = 0; //set flag
-			}
+		//tally up first word and second words
+		for(int i = 0; i < firstString.size(); i++){
+			firstChart[(int)firstString[i]]++;
+			secondChart[(int)secondString[i]]++;
 		}
-		if(inBaseStrings == 1){
-			tally.push_back(0);
-		}
-		inBaseStrings = 1;
-		loops++;
-	}
 	
-	for(int i = 0; i < tally.size(); i++){
-		cout << tally[i] << endl;
+		//check for same tally
+		int letter = 0;
+		int flag = 0;
+		while(flag == 0){
+			if(firstChart[letter] != secondChart[letter]){
+				cout << "NO" << endl;
+				flag = 1;
+			}
+			letter++;
+			if(letter == 128){
+				cout << "YES" << endl;
+				flag = 1;
+			}
+		}
+
 	}
 
+	cin.get();
+	cin.get();
     return 0;
 }
