@@ -1,0 +1,42 @@
+
+/*The tree node has data, left child and right child 
+struct node
+{
+    int data;
+    node* left;
+    node* right;
+};
+
+*/
+
+/*
+    1. If tree is empty then return 0
+    2. Else
+         (a) Get the max depth of left subtree recursively  i.e., 
+              call maxDepth( tree->left-subtree)
+         (a) Get the max depth of right subtree recursively  i.e., 
+              call maxDepth( tree->right-subtree)
+         (c) Get the max of max depths of left and right 
+              subtrees and add 1 to it for the current node.
+             max_depth = max(max dept of left subtree,  
+                                 max depth of right subtree) 
+                                 + 1
+         (d) Return max_depth
+*/
+
+int height(node * root)
+{
+    int leftDepth;
+    int rightDepth;
+    //base case
+    if(root == NULL){
+        return -1; //nothing, if there is only one root will return 0, cuz height of 0
+    } else {
+        leftDepth = height(root->left);
+        rightDepth = height(root->right); 
+        if(leftDepth > rightDepth){
+            return leftDepth+1;
+        } else {
+            return rightDepth+1;
+        }
+    
