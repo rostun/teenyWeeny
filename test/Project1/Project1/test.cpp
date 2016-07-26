@@ -11,68 +11,55 @@
 */
 
 #include <iostream>
-#include <vector>
-#include <string> 
-#include <unordered_set>
+#include <string>
+#include <stack>
+#include <locale>
 
 using namespace std;
 
-int main() {
+int findMatchingPair(const string& input);
 
-	//const char LETTERS[] = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    string s( "This12 34is 56a78 test" );
-	string ss( "This12 34is test" );
+// Driver program to test methods of graph class
+int main()
+{
+	string line = "XYZzxy";
 
-	//getline (cin, s);
-
-	unordered_set <string> v;
-	string word = "";
-
-	for(int i = 0; i < s.size(); i++){
-		if(s[i] != ' '){
-			word = word + s[i];
-		} else {
-			v.insert(word);
-			word = "";
-		}
-		//cout << word << endl;
-	}
-	v.insert(word);
-	//cout << endl;
-
-	/*for(int i = 0; i < v.bucket_count(); i++){
-		cout << "bucket #" << i << " contains:";
-		for(auto it = v.begin(i); it != v.end(i); it++){
-			cout << " " << *it;
-		}
-		cout << endl;
-	}*/
-
-	vector <string> sameWords;
-	unordered_set<string>::const_iterator got;
-	word = "";
-
-	for(int i = 0; i < ss.size(); i++){
-		cout << "loop" << endl;
-		if(ss[i] != ' '){
-			word = word + ss[i];
-		} 
-		if(i == ss.size()-1 || ss[i] == ' '){
-			cout << word << endl;
-			//check if word is in bucket
-			got = v.find(word);
-			if(got != v.end()){
-				cout << "matching" << endl;
-				sameWords.push_back(*got);
-			}
-			word = "";
-		}
-	}
-
-	for(int i = 0; i < sameWords.size(); i++){
-		cout << sameWords[i] << endl;
-	}
-
+    cout << "Index of Pair:  "
+         << findMatchingPair(line);
+    
 	cin.get();
-    return 0;
+	return 0;
+}
+
+int findMatchingPair(const string& input){
+
+	stack <char> container;
+	int lastIndex = -1;
+
+	int i = 0;
+	char top;
+
+	//go through the input, push things on to the stack 
+	while(i < input.length()){
+		if(container.empty()){
+			container.push(input[i]);
+			i++;
+		}
+		//cout << container.top() << " " << input[i] << endl;
+		if(islower(input[i]) && isupper(container.top())){
+			//see if top of container is uppercase version of input
+			top = container.top();
+			if(input[i] == tolower(top)){			
+				container.pop();			
+				lastIndex = i;
+			} else {
+				container.push(input[i]);
+			}
+		} else {
+			container.push(input[i]);
+		}
+		i++;
+	}
+	
+	return lastIndex;
 }
