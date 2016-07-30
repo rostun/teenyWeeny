@@ -1,65 +1,45 @@
-/*
-	return matching words from two strings
-
-	1. duplicates?
-	2. what counts as a word (space, comma, etc)
-	3. length of strings
-	4. empty strings?
-
-	assuming if something is separated by a space on either side, it's a "word"
-		test cases for empty strings, no words, etc. left out
-*/
-
+//Given an array of integers, find two numbers such that 
+//they add up to a specific target number 
 #include <iostream>
-#include <string>
-#include <stack>
-#include <locale>
+#include <vector>
+#include <map>
 
 using namespace std;
 
-int findMatchingPair(const string& input);
+void findPairs(vector <int> numbers, int k);
 
-// Driver program to test methods of graph class
-int main()
-{
-	string line = "XYZzxy";
+int main(){
+	int num = 6;
+	int k = 3;
+	int arr[] = {1, 3, 4, 5, 6, 2};
+	vector <int> numbers(arr, arr+num);
+	
+	findPairs(numbers, k);
 
-    cout << "Index of Pair:  "
-         << findMatchingPair(line);
-    
 	cin.get();
 	return 0;
 }
 
-int findMatchingPair(const string& input){
-
-	stack <char> container;
-	int lastIndex = -1;
-
-	int i = 0;
-	char top;
-
-	//go through the input, push things on to the stack 
-	while(i < input.length()){
-		if(container.empty()){
-			container.push(input[i]);
-			i++;
-		}
-		//cout << container.top() << " " << input[i] << endl;
-		if(islower(input[i]) && isupper(container.top())){
-			//see if top of container is uppercase version of input
-			top = container.top();
-			if(input[i] == tolower(top)){			
-				container.pop();			
-				lastIndex = i;
-			} else {
-				container.push(input[i]);
-			}
-		} else {
-			container.push(input[i]);
-		}
-		i++;
-	}
+void findPairs(vector <int> numbers, int k){
+	//put vector numbers into set
+	map <int, int> hash;
+	map <int, int>::iterator it;
 	
-	return lastIndex;
+	for(int i = 0; i < numbers.size(); i++){
+		//key is number value is index
+		hash.insert(make_pair(numbers[i], i)); 
+	}
+	//look for some pairs
+	int complement;
+	for(int i = 0; i < numbers.size(); i++){
+		//looking for complement of number in hash table
+		complement = k - numbers[i];
+		it = hash.find(complement);
+		//also make sure it doesn't have the index i
+		//**no duplicate values**
+		if(it != hash.end() && it->second != i){
+			cout << "first number: " << numbers[i] << endl;
+			cout << "second number: " << it->first << endl;
+		}
+	}
 }
