@@ -1,0 +1,17 @@
+Find out square root of a given number without using a math library
+	for just integers, you can add up odd numbers starting from 1. The number of odd numbers is the answer
+		[1] 1 = 1
+		[2] 1 + 3 = 4
+		[3] 1 + 3 + 5 = 9
+	for decimals, need to make a estimation (#include <iomanip> | cout << setprecision(2) << number << endl;)
+		float m, n, num;
+		n = .0001 (calculate decimal place)
+		cout << enter a number << endl;
+		cin >> num;
+		
+		for(m = 0; m < num; m = m + n){
+			if(m*m > num){
+				m = m-n;
+				break;
+			}
+		}

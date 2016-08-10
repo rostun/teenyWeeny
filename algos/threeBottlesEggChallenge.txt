@@ -1,0 +1,17 @@
+you have three bottles and you have to test their durability, 100 floor building, etc
+	Imagine if we drop our first egg from floor n, if it breaks we can step throuhg the previous n-1 floors one by one
+	n(n+1)/2 >= 100, which is about 13.651
+	
+	100/
+	If we drop from floor 14, worse case scenario is it breaks and we go up 13 floors, that's only 14 drops 
+	If we drop from floor 15, worse case scenario is it breaks and we go up 14 floors, that's only 15 drops
+	so, go by 14, 13, 12, 11, 10, etc. will be a better maximum drop 
+	14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 (14 times, wit)
+	14	14  14, etc. 
+	
+	k floors and e number of eggs, and the floor we are currently attempting to drop from is represented by n 
+		1) The egg breaks, so now our problem is reduced to a tower of height n-1, and we now have e-1 eggs.
+		2) The egg doesn't break and now we need to check k-n floors and we still have e eggs.
+	
+	we need to minimize the number of drops in the worst case, so we take the higher (max) of these two situations 
+	and select the floor which yields the minimum number of drops (dynamic programming)
