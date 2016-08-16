@@ -1,45 +1,120 @@
-//Given an array of integers, find two numbers such that 
-//they add up to a specific target number 
+/*
+	A car rental company wants to keep track of its cars. 
+	
+	Each vehicle has a license plate and a brand. (eg. BWM). 
+	
+	Currently the company has SUVs and Sedans. 
+		SUV-s have an optional third row seat that increases the passenger capacity by three
+		sedans have an optional sport package. 
+		
+	Each car can be queried to inquire the number of passengers it can carry.
+*/
+
 #include <iostream>
 #include <vector>
 #include <map>
+#include <string>
 
 using namespace std;
 
-void findPairs(vector <int> numbers, int k);
+class Car{
+	protected:
+		string license;
+		int capacity;
+		bool extra; //extra seats or no
+	public:
+		Car(string license="", int capacity=0, bool extra=false){
+			this->license = license;
+			this->capacity = capacity;
+			this->extra = extra;
+		}
+		virtual string getType()=0;
+		string getLicense(){
+			return license;
+		}
 
-int main(){
-	int num = 6;
-	int k = 3;
-	int arr[] = {1, 3, 4, 5, 6, 2};
-	vector <int> numbers(arr, arr+num);
+		virtual int numPassengers(){
+			//cout << "car class" << endl;
+			return capacity;
+		}
+
+};
+
+class Sedan: public Car{
+	public:
+		Sedan(string license="123Ab", int capacity=0, bool extra=false):Car(license, capacity, extra){}
+		string getType(){
+			return "Sedan";
+		}
+		string getLicense(){
+			return license;
+		}
+		int numPassengers(){
+			if (extra == false){
+				return capacity;
+			} else {
+				return (capacity+3);
+			} 
+		}
+};
+
+//assuming sports package means you can add another seat...
+class SUV: public Car{
+	public:
+		SUV(string license="123Ab", int capacity=0, bool extra = false):Car(license, capacity, extra){}
+		string getType(){
+			return "SUV";
+		}
+		string getLicense(){
+			return license;
+		}
+		int numPassengers(){
+			if(extra == false){
+				return capacity;
+			} else {
+				return (capacity+1);
+			}
+		}
+};
+
+class CarRental{
+	private:
+		vector <Car*> lot;
+	public:
+		CarRental(vector <Car*> lot){
+			this->lot = lot;
+		}
+		void addCar(Car* vehicle){
+			lot.push_back(vehicle);
+		}
+		void seeCars(){
+			for(int i = 0; i < lot.size(); i++){
+				cout << lot[i]->getType() << endl;
+				cout << lot[i]->getLicense() << endl;
+				cout << lot[i]->numPassengers() << endl;
+			}
+		}
+};
+
+int main()
+{
+	Car *car;
 	
-	findPairs(numbers, k);
+	vector <Car*> vehicles;
+	CarRental shop(vehicles);
+
+	Sedan sed("1234", 5, true); //originally starts off with 5 seats
+	SUV suv("4321", 2, false); //originall starts off with 2 seats
+
+	car = &suv;
+	shop.addCar(car);
+
+	car = &sed;
+	shop.addCar(car);
+
+	shop.seeCars();
 
 	cin.get();
 	return 0;
 }
 
-void findPairs(vector <int> numbers, int k){
-	//put vector numbers into set
-	map <int, int> hash;
-	map <int, int>::iterator it;
-	
-	for(int i = 0; i < numbers.size(); i++){
-		//key is number value is index
-		hash.insert(make_pair(numbers[i], i)); 
-	}
-	//look for some pairs
-	int complement;
-	for(int i = 0; i < numbers.size(); i++){
-		//looking for complement of number in hash table
-		complement = k - numbers[i];
-		it = hash.find(complement);
-		//also make sure it doesn't have the index i
-		//**no duplicate values**
-		if(it != hash.end() && it->second != i){
-			cout << "first number: " << numbers[i] << endl;
-			cout << "second number: " << it->first << endl;
-		}
-	}
-}
